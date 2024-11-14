@@ -25,14 +25,16 @@
 
 # Create the True/False txt file
 
-if [ ! -f "True_False_questions.txt"]; then
+if [ ! -f "True_False_questions.txt" ]; then
 	touch True_False_Questions.txt
+	echo "Created the True/False txt File"
 fi
 
 # Create the Multiple Choice txt File
 
-if [ ~ f "Multiple_Choice_questions.txt"]; then
+if [ ! -f "Multiple_Choice_questions.txt" ]; then
 	touch Multiple_Choice_questions.txt
+	echo "Created the Multiple Choice txt File"
 fi
 
 # ---------------------------------------------------------------------------------------
