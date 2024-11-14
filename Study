@@ -24,7 +24,6 @@
 # Step 1: Check and Create the txt files, and load question it
 
 # Create the True/False txt file
-
 if [ ! -f "True_False_questions.txt" ]; then
 	touch True_False_Questions.txt
 	echo "Created the True/False txt File"
@@ -39,6 +38,11 @@ fi
 
 # ---------------------------------------------------------------------------------------
 # Step 2: Initialize Variables
+ 
+  score = 0
+  true_false_file="Tru_False_questions.txt"
+  multiple_choice="Multiple_Choice_questions.txt"
+
 # ---------------------------------------------------------------------------------------
 # Step 3: Define the Main Menu Functions
 # ---------------------------------------------------------------------------------------
