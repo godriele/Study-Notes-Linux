@@ -22,6 +22,19 @@
 # Main Menu
 # ---------------------------------------------------------------------------------------
 # Step 1: Check and Create the txt files, and load question it
+
+# Create the True/False txt file
+
+if [ ! -f "True_False_questions.txt"]; then
+	touch True_False_Questions.txt
+fi
+
+# Create the Multiple Choice txt File
+
+if [ ~ f "Multiple_Choice_questions.txt"]; then
+	touch Multiple_Choice_questions.txt
+fi
+
 # ---------------------------------------------------------------------------------------
 # Step 2: Initialize Variables
 # ---------------------------------------------------------------------------------------
