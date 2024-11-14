@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Welcome to my Study Guide script. Users are able to add question, they can specify if its 
+# multiple choice, or true/false. There will be a score system so users can keep track 
+# how many they got right. Ive sectioned the script into parts
+
+# The parts are:
+
+# - Initialize Variables
+#   Ex: score = 0, total_question =0
+
+# - Load True/False Questions
+# - Load Multiple Choice Questions
+# - Show Quiz
+# - Add questions
+# - Display Score
+
+# - Ask True or False Questions
+# - Ask Multiple Choice Questions
+
+# - Error Handling
+# Main Menu
+# ---------------------------------------------------------------------------------------
+# Step 1: Check and Create the txt files, and load question it
+# ---------------------------------------------------------------------------------------
+# Step 2: Initialize Variables
+# ---------------------------------------------------------------------------------------
+# Step 3: Define the Main Menu Functions
+# ---------------------------------------------------------------------------------------
+# Step 4: Load Question from Files
+# # Write functions to load questions from the .txt files
+# ---------------------------------------------------------------------------------------
+# Step 5: Display and Ask questions
+# ---------------------------------------------------------------------------------------
+# Step 6: Handle True/False Questions
+# ---------------------------------------------------------------------------------------
+# Step 7: Handle Multiple Choice Questions
+# ---------------------------------------------------------------------------------------
+# Step 8: Add Questions
+# ---------------------------------------------------------------------------------------
+# Step 9: Display Score
+# ---------------------------------------------------------------------------------------
+# Step 10: Call the Scrip
