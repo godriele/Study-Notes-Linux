@@ -20,6 +20,8 @@
 
 # - Error Handling
 # Main Menu
+
+
 # ---------------------------------------------------------------------------------------
 # Step 1: Check and Create the txt files, and load question it
 
@@ -27,6 +29,8 @@
 if [ ! -f "True_False_questions.txt" ]; then
 	touch True_False_Questions.txt
 	echo "Created the True/False txt File"
+else
+	echo "True/False txt file already created"
 fi
 
 # Create the Multiple Choice txt File
@@ -34,29 +38,55 @@ fi
 if [ ! -f "Multiple_Choice_questions.txt" ]; then
 	touch Multiple_Choice_questions.txt
 	echo "Created the Multiple Choice txt File"
+else
+	echo "Multiple Choice txt file already created"
 fi
 
 # ---------------------------------------------------------------------------------------
 # Step 2: Initialize Variables
  
   score = 0
-  true_false_file="Tru_False_questions.txt"
-  multiple_choice="Multiple_Choice_questions.txt"
+  true_false_file="True_False_questions.txt"
+  multiple_choice_file="Multiple_Choice_questions.txt"
 
-# ---------------------------------------------------------------------------------------
-# Step 3: Define the Main Menu Functions
-# ---------------------------------------------------------------------------------------
-# Step 4: Load Question from Files
+
+# --------------------------------------------------------------------------------------
+# Step 3: Load Question from Files
 # # Write functions to load questions from the .txt files
+
+load_questions() {
+
+   # I plan on loading the questions from the txt file into these array 
+   true_false_questions=()
+   multiple_choice_questions=()
+   
+   # Load True or False questions from the file
+   while IFS= read -r line; do
+	   # read the first line and let line hold onto it
+	   # += adds it to the array 
+	   true_false_questions+=("$line")
+   done < "$true_false_file"
+
+   # Load Muctiple Choice questions from the file
+
+   while IFS= read -r line; do
+	   multiple_choice_question+=("$line")
+   done < "$multiple_choice_file"
+
+   # basically reading the txt file and outputting it in the array 
+     
+}
 # ---------------------------------------------------------------------------------------
-# Step 5: Display and Ask questions
+# Step 4: Display and Ask Questions
 # ---------------------------------------------------------------------------------------
-# Step 6: Handle True/False Questions
+# Step 5: Handle True/False Questions
 # ---------------------------------------------------------------------------------------
-# Step 7: Handle Multiple Choice Questions
+# Step 6: Handle Multiple Choice Questions
 # ---------------------------------------------------------------------------------------
-# Step 8: Add Questions
+# Step 7: Add Questions
 # ---------------------------------------------------------------------------------------
-# Step 9: Display Score
+# Step 8: Display Score
+# ---------------------------------------------------------------------------------------
+# Step 9: Main Menu Function
 # ---------------------------------------------------------------------------------------
 # Step 10: Call the Scrip
