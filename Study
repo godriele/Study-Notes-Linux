@@ -88,15 +88,25 @@ load_questions() {
   # Todo:
   # - Check if there are any True/False questions loaded
   # - Select a random True/False questions
+  # - Split the question and answer (Q|A)
+  #   - IFS ='|' read -r question_text correct_asnwer <<< "$question"
+  #
   # - Display the question and ask the user for input
   # ------------------------------------------------------------------------
   # - Validate the user's input
   # - Normalise input to uppercase
-  # - check if the answer is corret (check how you store the correct asnswer
+  # - check if the answer is corret (check how you store the correct answer)
+  #   - user_answer = "$user_answer"
+  #   - if $user_answer == $correct_answer
   # - if correct increment score
+  # - outside increment the total_question
+  # 
+  # After all questions have been answer 
+  #   - $score /$total_question
   # - check for invalid inputs
   # ------------------------------------------------------------------------
-   
+  #
+
 # ---------------------------------------------------------------------------------------
 # Step 5: Handle Multiple Choice Questions
   
@@ -104,20 +114,103 @@ load_questions() {
   # - chcek if there are any MCQ questions loaded
   # - Select a random Multiple Choice questions
   # - Split the question 
-  # 	- Questions: option 1: option 2: option 3: option 4 <<< "$question"
+  # 	- IFS='|' read -r questions_text option 1: option 2: option 3: option 4 <<< "$question"
+  #
   # - Display the question and option
   # -----------------------------------------------------------------------
   # - Validate the user's input must be a number between 1 -4
   # - Check if they are right and a valid input
   # 	- increment $score
+  # 	- increment $total_questions
+  # - Display score 
+  #     - $score /$total_questions
   #
+
+
 # ---------------------------------------------------------------------------------------
 # Step 6: Add Questions
+#
+	# --------------- Adding T/F questions -------------------------
+ # Todo:
+ # - Ask User to enter the question
+ # - Ask User if answer is True / False
+ # - Validate the input (T or F only)
+ #    	- Normalize input to uppercase
+ # - append the question and answer into the True/False question file
+ 
+	# --------------- Adding MCQ questions -------------------------
+ # Todo:
+ # - Ask user to enter the question
+ # - ASk user for the options
+ # - Ask for the correct asnwer (1-4)
+ # - Validate the correct answer input (1 - 4)
+ # - Save the questiion and option to the multiple choice file
+ #  - echo "$question | $option1 | $option2 | $option3 | $option4
+ 
+
+
 # ---------------------------------------------------------------------------------------
-# Step 7 : View all qeustions
+# Step 7: Delete Question
+#      #------------------- T/F Questions ------------------------------------
+  # Todo:
+  # - check if file is not empty
+  # - show the quesion in a list formaat
+  #    - $((i+1)) ${tru_false_question[$i]}
+  #
+  # - Ask user the number of the question they want to delte
+  # - Validate input
+  # - remove the question from the array
+  # - rewrite the True/False question to the file without the deleted question
+#      #------------------- MCQ Questions ------------------------------------
+  # Todo:
+  # - check if file is not empy
+  # - show the questions in a list format
+  
+  # - ask the user the number of the question they want to delete
+  # - Validate input 
+  # - remove the question from the array
+  # - rewrite the True/False question to the file without the deleted question
+  
+
+
 # ---------------------------------------------------------------------------------------
-# Step 8: Display Score
+# Step 8 : View all qeustions
+#
+#      #------------------ View T/F Questions ---------------------------
+  # Todo:
+  # Check if the file exist and is not empty
+  # Display all the questions from the file
+  # use cat $file
+#
+#      #----------------- View MCQ Questions ----------------------------
+  # Todo:
+  # Check if the file exist and is not empty
+  # Display all the quetions from the file
+  # use cat $file
+
+
+
+
+
 # ---------------------------------------------------------------------------------------
-# Step 9: Main Menu Function
-# ---------------------------------------------------------------------------------------
-# Step 10: Call the Scrip
+# Step 10: Main Menu Function
+# 
+# main_menu() {
+#   while loop
+   # Welcome
+   # 1) Answer True/False Quetion
+   # 2) Answer Multiple Choice question
+   # 3) View all T/F questions
+   # 4) View all MCQ questions
+   # 5) Add new questions
+   # 6) Delete a new question
+   # 7) eixt
+
+   # use case
+
+   # Todo:
+   # - Read user input
+   # - call the associate function
+   # - error handling - invalid input
+# }
+#
