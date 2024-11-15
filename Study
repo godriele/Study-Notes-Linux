@@ -45,7 +45,7 @@ fi
 # ---------------------------------------------------------------------------------------
 # Step 2: Initialize Variables
  
-  score = 0
+  score=0
   true_false_file="True_False_questions.txt"
   multiple_choice_file="Multiple_Choice_questions.txt"
 
@@ -60,12 +60,17 @@ load_questions() {
    true_false_questions=()
    multiple_choice_questions=()
    
+
+   # --------------------  True/False  ----------------------------------
+
    # Load True or False questions from the file
    while IFS= read -r line; do
 	   # read the first line and let line hold onto it
 	   # += adds it to the array 
 	   true_false_questions+=("$line")
    done < "$true_false_file"
+
+   #--------------------  Multiple Choice  -------------------------------
 
    # Load Muctiple Choice questions from the file
 
@@ -76,14 +81,40 @@ load_questions() {
    # basically reading the txt file and outputting it in the array 
      
 }
+
 # ---------------------------------------------------------------------------------------
-# Step 4: Display and Ask Questions
+# Step 4: Handle True/False Questions
+  
+  # Todo:
+  # - Check if there are any True/False questions loaded
+  # - Select a random True/False questions
+  # - Display the question and ask the user for input
+  # ------------------------------------------------------------------------
+  # - Validate the user's input
+  # - Normalise input to uppercase
+  # - check if the answer is corret (check how you store the correct asnswer
+  # - if correct increment score
+  # - check for invalid inputs
+  # ------------------------------------------------------------------------
+   
 # ---------------------------------------------------------------------------------------
-# Step 5: Handle True/False Questions
+# Step 5: Handle Multiple Choice Questions
+  
+  # Todo:
+  # - chcek if there are any MCQ questions loaded
+  # - Select a random Multiple Choice questions
+  # - Split the question 
+  # 	- Questions: option 1: option 2: option 3: option 4 <<< "$question"
+  # - Display the question and option
+  # -----------------------------------------------------------------------
+  # - Validate the user's input must be a number between 1 -4
+  # - Check if they are right and a valid input
+  # 	- increment $score
+  #
 # ---------------------------------------------------------------------------------------
-# Step 6: Handle Multiple Choice Questions
+# Step 6: Add Questions
 # ---------------------------------------------------------------------------------------
-# Step 7: Add Questions
+# Step 7 : View all qeustions
 # ---------------------------------------------------------------------------------------
 # Step 8: Display Score
 # ---------------------------------------------------------------------------------------
