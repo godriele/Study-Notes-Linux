@@ -83,51 +83,74 @@ load_questions() {
 # ---------------------------------------------------------------------------------------
 # Step 4: Handle True/False Questions
   
-True_False_Quiz() {
-  # Todo:
-  # - Check if there are any True/False questions loaded
-  if [ ! -s "{$true_false_questions[@]}" ]; then
-	  echo "There are no True/False question, Add some"
-	  return 1
-  fi 
+True_False() {
+   True_False_Quiz() {
+  	# Todo:
+ 	 # - Check if there are any True/False questions loaded
+  	if [ ! -s "{$true_false_questions[@]}" ]; then
+	 	 echo "There are no True/False question, Add some"
+	 	 return 1
+  	fi 
 
-  # - Select a random True/False questions
-  questions="${true_false_questions[ $RADNOM % ${#true_false_question[@]}]}"
+	echo "Starting the Quiz"
+	echo "----------------------------------"
+
+  	# - Select a random True/False questions
+  	questions="${true_false_questions[ $RADNOM % ${#true_false_question[@]}]}"
   
-  questions_text="${questions%|*}" # - This will grab the text before '|'
-  correct_answer="${question##*| }" # - This will grab the text after '|'
+  	questions_text="${questions%|*}" # - This will grab the text before '|'
+  	correct_answer="${question##*| }" # - This will grab the text after '|'
 
-  # - Display the question   
-  echo "$question_text (t/f)"
-  # ------------------------------------------------------------------------
-  # - Validate the user's input
-  # - Normalise input to uppercase
-  # - Validate
-  while true; do
-	  read -p "Your answer: " user_answer
-	  user_asnwer="{user_answer...}" # convert to lowercase
+  	# - Display the question   
+  	echo "$question_text (t/f)"
+  	# ------------------------------------------------------------------------
+  	# - Validate the user's input
+  	# - Normalise input to uppercase
+  	# - Validate
+  	while true; do
+	  	read -p "Your answer: " user_answer
+	 	 user_asnwer="{user_answer...}" # convert to lowercase
 
-	  if  [[ "$user_answer" == "t" || "$user_answer" == "f" ]]; then
-		  break
-	  else
-		  echo "Invalid input: 't' or 'f' only"
-	  fi
-  done
+	  	if  [[ "$user_answer" == "t" || "$user_answer" == "f" ]]; then
+		  	break
+	  	else
+		 	echo "Invalid input: 't' or 'f' only"
+	  	fi
+  	done
 
-  (($total_question++))
+  	(($total_question++))
 
-  # - check if the answer is correct (check how you store the correct answer)
-  if [[ "$user_answer" == "$correct_answer" ]]; then
-	  echo "Correct! Goodb Job"
-	  # if user is correct add 1 score
-	  (($score ++))
-  else
-	  echo "Incorrect :(, The correect answer is: $correct_answer"
-  fi 
+  	# - check if the answer is correct (check how you store the correct answer)
+  	if [[ "$user_answer" == "$correct_answer" ]]; then
+	  	echo "Correct! Goodb Job"
+	  	# if user is correct add 1 score
+	  	(($score ++))
+  	else
+	  	echo "Incorrect :(, The correect answer is: $correct_answer"
+  	fi 
+
+  }
+  
+  display_final_score() {
+	echo "Quiz Complete"
+	echo "------------------------------------"
+	echo "Total Questions Attempted: $total_question"
+	echo "Total Correct Answeres: $score"
+
+	# Calculate and display percentage
+	if [ "$total_questions" -gt 0 ]; then
+		percentage=$((100 * score / total_quesiton))
+		echo "Your Score percentage: $percentage"
+	else
+		echo "No questions were answered"
+	fi
+	echo "-------------------------------------"
+  }
+
 }
-  # After all questions have been answer 
-  #   - $score /$total_question
-  # - check for invalid inputs
+  	# After all questions have been answer 
+  	#   - $score /$total_question
+  	# - check for invalid inputs
 
 # ---------------------------------------------------------------------------------------
 # Step 5: Handle Multiple Choice Questions
