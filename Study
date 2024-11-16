@@ -87,7 +87,7 @@ True_False() {
    True_False_Quiz() {
   	# Todo:
  	 # - Check if there are any True/False questions loaded
-  	if [ {$true_false_questions[@]} -eq 0 ]; then
+  	if [ ${#true_false_questions[@]} -eq 0 ]; then
 	 	 echo "There are no True/False question, Add some"
 	 	 return 1
   	fi 
@@ -96,21 +96,21 @@ True_False() {
 	echo "----------------------------------"
 
   	# - Select a random True/False questions
-  	questions="${true_false_questions[ $RANDOM % ${#true_false_question[@]}]}"
+  	question="${true_false_questions[ $RANDOM % ${#true_false_question[@]}]}"
   
  	# Assign the variables
-  	questions_text="${questions%|*}" # - This will grab the text before '|'
-  	correct_answer="${questions##*| }" # - This will grab the text after '|'
+  	questions_text="${question%|*}" # - This will grab the text before '|'
+  	correct_answer="${question##*| }" # - This will grab the text after '|'
 
   	# - Display the question   
-  	echo "$question_text (t/f)"
+  	echo "$questions_text (t/f)"
   	# ------------------------------------------------------------------------
   	# - Validate the user's input
   	# - Normalise input to uppercase
   	# - Validate
   	while true; do
 	  	read -p "Your answer: " user_answer
-	 	 user_answer="{user_answer...}" # convert to lowercase
+		user_answer=$(echo "$user_answer" | tr '[:upper:]' '[:lower:]') # convert to lowercase
 
 	  	if  [[ "$user_answer" == "t" || "$user_answer" == "f" ]]; then
 		  	break
@@ -146,16 +146,14 @@ True_False() {
 	fi
 	echo "-------------------------------------"
   }
+   while true; do
+ 	echo "Try the quiz again?: (y/n)" 
+  	read -r user_response
 
-  echo "Try the quiz again?: (y/n)" 
-  read -r user_response
-
-  if $user_response == "y"; then
-	True_False_Quiz
-  else
-	  Menu
-  fi
-
+  	if [[ $user_response == "n" ]]; then
+		break
+	fi
+  done
 }
 # ---------------------------------------------------------------------------------------
 # Step 5: Handle Multiple Choice Questions
@@ -163,7 +161,7 @@ True_False() {
 Multiple_Choice() {
   Multiple_Choice_Quiz() {
      #Check if ther anre any MCQ questions loaded
-	if [ {$multiple_choice_question[@] -eq 0} ]; then
+	if [ ${#multiple_choice_question[@]} -eq 0} ]; then
 		echo "There are no multiple choice questions, Add soome"
 		return 1
 	fi
@@ -183,7 +181,6 @@ Multiple_Choice() {
      echo "$questions"
      echo "$choices" 
      
-     #:
      #-------------------------------------------------
      # Validate the users input
      while true; do
@@ -193,7 +190,7 @@ Multiple_Choice() {
 	     user_answer=$(echo "$user_answer" | tr '[:lower:]' '[:upper:]')
 
 	     # Check if its a valid input
-	     if [ "$user_answer" =~ ^[A-D]$ ]; then
+	     if [[ "$user_answer" =~ ^[A-D]$ ]]; then
 		     break
 	     else
 		     echo "Invalid input. Please enter a, b, c, or d only"
@@ -203,15 +200,13 @@ Multiple_Choice() {
      ((total_questions++))
 
      # Check if the answer is correct
-
      if [[ "$user_answer" == "$correct_answer" ]]; then
 	     echo "Correct Answer!"
 	     ((score++))
      else
 	     echo "Incorrect :( The correect asnwer is $correct_answer"
     fi 
-       echo "--------------------------------------"
- 
+  	echo "---------------------------------------"
   }
 
   display_final_score() {
@@ -229,15 +224,17 @@ Multiple_Choice() {
     fi
     echo "------------------------------------"
   }
-  echo "Try the quiz again (y/n)"
-  read -r user_response
-  if "$user_response" == "y"; then
-	  Multiple_Choice_Quiz
-  else
-	  Menu
-  fi 
-}
 
+  while true; do
+     True_False_Quiz
+  	echo "Try the quiz again (y/n)"
+ 	 read -r user_response
+
+ 	 if [[ "$user_response" == "n" ]]; then
+		 break
+	 fi 
+    done
+}
 
 # ---------------------------------------------------------------------------------------
 # Step 6: Add Questions
