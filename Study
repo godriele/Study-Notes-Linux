@@ -98,6 +98,7 @@ True_False() {
   	# - Select a random True/False questions
   	questions="${true_false_questions[ $RANDOM % ${#true_false_question[@]}]}"
   
+ 	# Assign the variables
   	questions_text="${questions%|*}" # - This will grab the text before '|'
   	correct_answer="${questions##*| }" # - This will grab the text after '|'
 
@@ -130,7 +131,6 @@ True_False() {
   	fi 
 
   }
-  
   display_final_score() {
 	echo "Quiz Complete"
 	echo "------------------------------------"
@@ -147,29 +147,95 @@ True_False() {
 	echo "-------------------------------------"
   }
 
-}
-  	# After all questions have been answer 
-  	#   - $score /$total_question
-  	# - check for invalid inputs
+  echo "Try the quiz again?: (y/n)" 
+  read -r user_response
 
+  if $user_response == "y"; then
+	True_False_Quiz
+  else
+	  Menu
+  fi
+
+}
 # ---------------------------------------------------------------------------------------
 # Step 5: Handle Multiple Choice Questions
   
-  # Todo:
-  # - chcek if there are any MCQ questions loaded
-  # - Select a random Multiple Choice questions
-  # - Split the question 
-  # 	- IFS='|' read -r questions_text option 1: option 2: option 3: option 4 <<< "$question"
-  #
-  # - Display the question and option
-  # -----------------------------------------------------------------------
-  # - Validate the user's input must be a number between 1 -4
-  # - Check if they are right and a valid input
-  # 	- increment $score
-  # 	- increment $total_questions
-  # - Display score 
-  #     - $score /$total_questions
-  #
+Multiple_Choice() {
+  Multiple_Choice_Quiz() {
+     #Check if ther anre any MCQ questions loaded
+	if [ {$multiple_choice_question[@] -eq 0} ]; then
+		echo "There are no multiple choice questions, Add soome"
+		return 1
+	fi
+	
+	echo "Starting the Quiz"
+	echo "------------------------------------"
+
+     # Select a random Multiple Choice question
+     question="${multiple_choice_questions[ RANDOM % ${#multiple_choice_questions[@]}]}"
+	
+     #Assign the variables
+     questions_text="${question%|Choice:*}" # - Texts before 'Choices'
+     choices="${question#*Choices: }" # - Texts after 'Choices'
+     correct_answer="${question##*Correct: }" # - Correct Answer 
+
+     # Display the questions and choices
+     echo "$questions"
+     echo "$choices" 
+     
+     #-------------------------------------------------
+     # Validate the users input
+     while true; do
+	     read -p "You answer (a/b/c/d): " user_answer
+
+	     # Normalize input to uppercase
+	     user_answer=$(echo "$user_answer" | tr '[:lower:]' '[:upper:]')
+
+	     # Check if its a valid input
+	     if [ "$user_answer" =~ ^[A-D]$ ]; then
+		     break
+	     else
+		     echo "Invalid input. Please enter a, b, c, or d only"
+	     fi
+     done
+     #--------------------------------------------------
+     ((total_questions++))
+
+     # Check if the answer is correct
+
+     if [[ "$user_answer" == "$correct_answer" ]]; then
+	     echo "Correct Answer!"
+	     ((score++))
+     else
+	     echo "Incorrect :( The correect asnwer is $correct_answer"
+    fi 
+       echo "--------------------------------------"
+ 
+  }
+
+  display_final_score() {
+    echo "Quiz Complete!"
+    echo "------------------------------------"
+    echo "Total Questions Attempted: $total_questions"
+    echo "Total Correct Answers: $score"
+
+    # Calculate and display percentage
+    if [ "$total_questions" -gt 0 ]; then
+        percentage=$((100 * score / total_questions))
+        echo "Your Score Percentage: $percentage%"
+    else
+        echo "No questions were attempted."
+    fi
+    echo "------------------------------------"
+  }
+  echo "Try the quiz again (y/n)"
+  read -r user_response
+  if "$user_response" == "y"; then
+	  Multiple_Choice_Quiz
+  else
+	  Menu
+  fi 
+}
 
 
 # ---------------------------------------------------------------------------------------
