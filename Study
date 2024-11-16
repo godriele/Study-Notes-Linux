@@ -34,7 +34,6 @@ else
 fi
 
 # Create the Multiple Choice txt File
-
 if [ ! -f "Multiple_Choice_questions.txt" ]; then
 	touch Multiple_Choice_questions.txt
 	echo "Created the Multiple Choice txt File"
@@ -79,33 +78,56 @@ load_questions() {
    done < "$multiple_choice_file"
 
    # basically reading the txt file and outputting it in the array 
-     
 }
 
 # ---------------------------------------------------------------------------------------
 # Step 4: Handle True/False Questions
   
+True_False_Quiz() {
   # Todo:
   # - Check if there are any True/False questions loaded
+  if [ ! -s "{$true_false_questions[@]}" ]; then
+	  echo "There are no True/False question, Add some"
+	  return 1
+  fi 
+
   # - Select a random True/False questions
-  # - Split the question and answer (Q|A)
-  #   - IFS ='|' read -r question_text correct_asnwer <<< "$question"
-  #
-  # - Display the question and ask the user for input
+  questions="${true_false_questions[ $RADNOM % ${#true_false_question[@]}]}"
+  
+  questions_text="${questions%|*}" # - This will grab the text before '|'
+  correct_answer="${question##*| }" # - This will grab the text after '|'
+
+  # - Display the question   
+  echo "$question_text (t/f)"
   # ------------------------------------------------------------------------
   # - Validate the user's input
   # - Normalise input to uppercase
-  # - check if the answer is corret (check how you store the correct answer)
-  #   - user_answer = "$user_answer"
-  #   - if $user_answer == $correct_answer
-  # - if correct increment score
-  # - outside increment the total_question
-  # 
+  # - Validate
+  while true; do
+	  read -p "Your answer: " user_answer
+	  user_asnwer="{user_answer...}" # convert to lowercase
+
+	  if  [[ "$user_answer" == "t" || "$user_answer" == "f" ]]; then
+		  break
+	  else
+		  echo "Invalid input: 't' or 'f' only"
+	  fi
+  done
+
+  (($total_question++))
+
+  # - check if the answer is correct (check how you store the correct answer)
+  if [[ "$user_answer" == "$correct_answer" ]]; then
+	  echo "Correct! Goodb Job"
+	  # if user is correct add 1 score
+	  (($score ++))
+  else
+	  echo "Incorrect :(, The correect answer is: $correct_answer"
+  fi 
+}
   # After all questions have been answer 
   #   - $score /$total_question
   # - check for invalid inputs
-  # ------------------------------------------------------------------------
-  #
 
 # ---------------------------------------------------------------------------------------
 # Step 5: Handle Multiple Choice Questions
@@ -187,8 +209,6 @@ load_questions() {
   # Check if the file exist and is not empty
   # Display all the quetions from the file
   # use cat $file
-
-
 
 
 
