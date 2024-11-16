@@ -183,6 +183,7 @@ Multiple_Choice() {
      echo "$questions"
      echo "$choices" 
      
+     #:
      #-------------------------------------------------
      # Validate the users input
      while true; do
