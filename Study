@@ -686,5 +686,106 @@ delete_command_question() {
    # - Read user input
    # - call the associate function
    # - error handling - invalid input
-# }
-#x
+
+main_menu() {
+  while true; do
+	  echo "-----------------------------------"
+	  echo "Welcome to the Study Guide Program!"
+	  echo "Please select an option:"
+	  echo "1) Answer True/Fasle Question"
+	  echo "2) Answer Multiple Choice Question"
+	  echo "3) Answer Command Question"
+	  echo "4) View all True/False Questions"
+	  echo "5) View All Multiple Choice Questions"
+	  echo "6) View all Command Questions"
+	  echo "7) Add new Questions"
+	  echo "8) Delete a Question"
+	  echo "9) Exit"
+	  echo "------------------------------------"
+
+	  read -p "Enter your choice (1-9); " choice
+
+	  case $choice in 
+		1) 
+			True_False
+			;;
+		2) 
+			Multipl_Choice
+			;;
+		3)
+			Command_Questions
+			;;
+		4)
+			view_true_false_qeustions
+			;;
+		5)
+			view_multiple_choice_question
+			;;
+		6)
+			view_commands_questions
+			;;
+		7) 
+			echo "Add Questions: Menu"
+			echo "------------------------"
+			echo "1) Add True/False Question"
+			echo "2) Add Multiple Choice Question"
+			echo "3) Add Command Question"
+			echo "4) Back to Main Menu"
+			read -p "Choose an option (1-4): " add_choice
+			
+			case $add_choice in 
+				1)
+					Add_TF_Questions
+					;;
+				2)
+					Add_MQ_Questions
+					;;
+				3)
+					Add_Command
+					;;
+
+				4)
+					echo "Returning to Main Menu"
+					;;
+				*)
+					echo "Invalid Input, Please select a valid option"
+					;;
+			esac
+			;;
+			
+		8)
+			echo "Delete Questions Menu:"
+			echo "--------------------------"
+			echo "1) Delete True/False Question"
+			echo "2) Delete Multiple Choice Question"
+			echo "3) Delete Command Question"
+			echo "4) Back to Main Menu"
+			read -p "Choose an option (1-4): " delete_choice
+			case $delete_choice in
+				1)
+					delete_true_false_question
+					;;
+				2) 
+					delete_MQ_questions
+					;;
+				3)
+					delete_command_question
+					;;
+				4) 
+					echo "Returning to Main menu"
+					;;
+				*) 
+					echo "Invalid Input"
+					;;
+			esac
+			;;
+		9)
+			echo "Existing the program. Buh Bye!"
+			break
+			;;
+		*)
+			echo "Invalid Input. Please select a valid option (1-9)."
+			;;
+	esac
+ done
+}
