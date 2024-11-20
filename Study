@@ -55,6 +55,7 @@ fi
 # Step 2: Initialize Variables
  
   score=0
+  total_question=0
   true_false_file="True_False_questions.txt"
   multiple_choice_file="Multiple_Choice_questions.txt"
   enter_command_file="Commands.txt"
@@ -258,9 +259,83 @@ Multiple_Choice() {
 
 # ---------------------------------------------------------------------------------------
 #  Step 6: Enter the Command Questions
-#
-#
-# ---------------------------------------------------------------------------------------
+
+Command() {
+    Command_Quiz() {
+	# Check if ther are any questions loaded
+        if [[ ${#commands_questions[@]} -eq 0 ]]; then
+	       echo "There are no questions loaed in the commands.txt"
+	       echo "Add some bro"
+	else
+		return 1
+	fi
+	
+	echo "Starting the Enter Command Quiz"
+	echo "----------------------------------------"
+
+	# Select a random command from the array
+	question="${commands_questions[ $RANDOM % ${#commands_questions[@]} ]}"
+
+	# Assignnign the variables
+	description="${questions%|*}" # The text before the |
+	command_name="${questions##*| }" # The text after the |
+
+	# Show the question to the user
+	
+	echo "Description: $description"
+	echo "----------------------------------------"
+
+	# Validate the users input
+	
+	while true; do
+		read -p "Enter the commnad: " user_answer
+	
+		# put the user input to lowercase
+		user_answer=$(echo "$user_input" | tr '[:upper:]' '[:lower:')
+		# same goes with command
+		correct_command=$(echo "$command_name" | tr '[:upper:]' '[:lower]')
+
+		((total_question++))
+		
+		# check if the user is righti
+		if [[ "$user_input" == "$correct_command"]]; then
+			echo "Correct!"
+			((score++))
+			break
+		else
+			echo "Incorrect :( Correct command is: $correct_command"
+			break
+		fi
+	done
+    }
+    display_final_score() {
+	echo "Quiz Finished"
+	echo "------------------------------------------"
+	echo "Total questions: $total_questions"
+	echo "Total Correct Answer: $score"
+
+	# Calculate and show percentage
+	
+	if [ "$total_questions" -gt 0]; then
+		percentage=$(( 100 * $score / total_question))
+		echo "Your Score Percentage: $percentage"
+	else
+		echo "No questions were attempted"
+	fi
+	echo "-------------------------------------------"
+    }
+
+    while true; do
+	    Command_Quiz
+	    echo "Try the quiz again (y/n)"
+	    read -r user_response
+
+	    if [[ "$user_response" == "n" ]]; then
+		    break
+ 	    fi
+   done 
+}
+# --------------------------------------------------------------------------------------
 # Step 7: Add Questions
 #
 	# --------------- Adding T/F questions -------------------------
