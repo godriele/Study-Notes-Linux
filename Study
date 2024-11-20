@@ -465,6 +465,7 @@ delete_true_false_question() {
   while true; do
   # - show the quesion in a list formaat
      echo "True/False Questions: "
+     echo "------------------------------"
   #    - $((i+1)) ${tru_false_question[$i]}
      for i in "${!true_false_question[@]}"; do
 	     echo "$((i + 1)). ${true_false_questions[$1]}"
@@ -513,6 +514,7 @@ delete_MQ_questions() {
   while true; do 
   # - show the questions in a list format
       echo "Multiple Choice Questions:"
+      echo "------------------------------"
       for i in "${!multiple_choice_questions[@]}"; do
 	      questions="${multiple_choice_questions[$1]}"
 	      question_text="${question%|Choice:*}" # Take only the question text
@@ -552,22 +554,58 @@ delete_MQ_questions() {
 }
 #      #------------------- Command Questions ---------------------------------
   # Todo
+delete_command_question() {
   # - Check if the th Command File is not empty:
+  if [ ! -s "$enter_command_file" ]; then
+	  echo "Command Question file is empty"
+	  return
+  fi 
+
   # - Show the question in anumbered list format
+  while true; do
   # 	- $((i+1)) ${commandS_question[$i]}
+   	echo "Command Questions:" 
+	echo "--------------------------"
+	for i in "${!commands_questions[@]}"; do
+		questions="${!commands_questions[$1]}"
+		command_description="${questions%|Command:*}" # Get the description only
+		echo "$((i + 1)). $command_description"
+	done
   # 
   # - Ask th user to enter the number corresponding to the question they want to delete
+  read -p "Enter the number of the question you want to delete (or 'q' to return to the menu" choice
+  
+  if [[ "$choice" == "q" ]]; then
+	  echo "Returning to the menu"
+	  break
+  fi 
+
   # - Validate the input:
   # 	- Ensure the input is a number
   # 	- Ensure the number corresponsds to an existing question in the list
-  #
+  if ! [[ "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || ["$choice" -gt "${#commands_questions[@]}" ]; then
+	  echo "Invalid input. Please enter a valid question number"
+	  continue
+  fi 
+
   # - Remove the question from the array
+  index=$((choice - 1))
+  echo  "Deleting: ${commands_questions[$index]}"
+  unset commands_questions[$index]
+
   # - Rewrite the command question the the file, excluding the deleted question
+  printf "%s\n" "${commands_questions[@]}" > "$enter_command_file"
+  echo "Questions deleted successfully!"
   # - Confirm to the user that the question was susccessfully deleted
   
+  # - Ask user if they want to delete another question
+  read -p "Do you want to deleter another question? (y/n)" user_response
+  if [[ "$user_response" != "y" ]]; then
+	  break
+  fi 
+ done
+}
   
-
-
 # ---------------------------------------------------------------------------------------
 # Step 9 : View all qeustions
 #
