@@ -611,16 +611,59 @@ delete_command_question() {
 #
 #      #------------------ View T/F Questions ---------------------------
   # Todo:
+  view_true_false_questions() {
   # Check if the file exist and is not empty
+  if [ ! -s "$true_false_file" ]; then
+	  echo "The True/False question file is empty"
+	  return
+  fi
+
   # Display all the questions from the file
-  # use cat $file
-#
+  echo "True/False Questions:"
+  echo "--------------------------------------"
+  
+  while IFS= read -r line; do
+	  echo "$line"
+  done < "${true_false_file}"
+
+  echo "--------------------------------------"
+}
 #      #----------------- View MCQ Questions ----------------------------
   # Todo:
+  view_multiple_choice_question() {
   # Check if the file exist and is not empty
+  if [ ! -s "$multiple_choice_file" ]; then
+	  echo"The Multiple Choice question file is empty"
+	  return
+  fi 
   # Display all the quetions from the file
-  # use cat $file
+  echo "Multiple Choice Questions:"
+  echo "---------------------------------------"
 
+  while IFS= read -r line;do 
+	  echo "$line"
+  done < "${multiple_choice_file}"
+
+  echo "---------------------------------------"
+}      
+       #----------------- View Command Questions ------------------------
+  # Todo:
+  view_commands_questions() {
+  # - Check if the file exist and it not empty
+  if [ ! -s "$enter_command_file" ]; then
+	  echo "The Command File is empty"
+	  return
+  fi
+  # - Display all the command questions from the file
+  echo "Commands Questions:"
+  echo "--------------------------------------"
+
+  while IFS= read -r line; do
+	  echo "$line"
+  done < "${enter_command_file}"
+  
+  echo "--------------------------------------" 
+}
 
 
 # ---------------------------------------------------------------------------------------
