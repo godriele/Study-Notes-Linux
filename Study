@@ -513,13 +513,41 @@ delete_MQ_questions() {
   while true; do 
   # - show the questions in a list format
       echo "Multiple Choice Questions:"
-      for i in "${!multiple_choice_questions[@]}"; dp
+      for i in "${!multiple_choice_questions[@]}"; do
 	      questions="${multiple_choice_questions[$1]}"
-	      question_tex
+	      question_text="${question%|Choice:*}" # Take only the question text
+	      echo "$((i + 1)). $question_text"
+      done
+
   # - ask the user the number of the question they want to delete
   # - Validate input 
+  read -p "Enter the number of the question you want to delete (or 'q' to return to the menu)" choice
+
+  if [[ "$choice" == "q" ]]; then
+	  echo "Returning to the menu"
+	  break
+  fi 
+
+  if ! [[ "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || [ "$choice" -gt "${#multiple_choice_questions[@]}" ]; then
+	  echo "Invalid Input. Please enter a valid quesiton number"
+	  continue
+  fi 
+
   # - remove the question from the array
+  index=$((choice - 1))
+  echo "Deleting: ${multiple_choice_questions[$index]}"
+  unset multiple_choice_questions[$index]
+
   # - rewrite the True/False question to the file without the deleted question
+  printf "%s\n" "${multiple_choice_questions[@]}" > "$mutliple_choice_file"
+  echo "Question deleted sucessfully!"
+
+  # - Ask the user if they want to delete another question
+  read -p "Do you want to deleter another question? (y/n) " user_response
+  if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
+	  echo "Returning to the menu"
+	  break
+  fi 
  done
 }
 #      #------------------- Command Questions ---------------------------------
