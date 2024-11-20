@@ -424,12 +424,32 @@ Command() {
  }
  #     # --------------- Adding Command questions ----------------------
  #  Todo:
+ Add_Command() {
+   while true; do
  #  - Ask the user to enter description of the command
+ 	read -p "Enter the description of the command" question
+	if [ -z $question ]; then
+		echo "Question cannot be empty"
+		return 1
+	fi
  #  - Ask the user to enter the correct command associated with the description
+ 	read -p "Enter the command associated with the description" correct_command
  #  - Validate the input to ensure it is not empty or invalid
- #  - Normalize the command input to a lowercase
+ 	if [ -z "$correct_command" ]; then
+		echo " Command cannot be empty"
+		return 1
+	fi 
  #  - append the description and the command tot he command quesitons file in the format
- #  : "Descriptipion | Command
+       echo "$question" | "$correct_command" >> "$enter_command_file"
+       echo "Question Added!"
+
+      # - Ask user if they wanna add another question
+      read -p "Add Another Question (y/n): " user_response
+      if [ "$user_response" != "y" && "$user_response" != "Y" ]; then
+	      break
+      fi
+done
+}
  
 # ---------------------------------------------------------------------------------------
 # Step 8: Delete Question
