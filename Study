@@ -358,7 +358,7 @@ Command() {
  
  	answer=$(echo "$answer" | tr '[:lower:]' '[:upper:]')
 	
-	if [[ "$answer" != "t" && "$answer" != "f" ]]; then 
+	if [[ "$answer" != "t" || "$answer" != "f" ]]; then 
 		echo "Invalid input, only 't' for True or 'f' for false"
 		continue
 	fi 
@@ -370,7 +370,7 @@ Command() {
 	# - ask user if they want to add another question
 	read -p "Add another question (y/n): " user_response
 	
-	if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
+	if [[ "$user_response" != "y" || "$user_response" != "Y" ]]; then
 		break
 	fi
  done
@@ -404,7 +404,7 @@ Command() {
 	correct_answer=$( echo "$correct_answer" | tr '[:upper:]' '[:lower:]')
 
  	# - Validate the correct answer input (a,b,c,d,)
-	if [[ "$correct_answer" != "a" && "$correct_answer" != "b" && "$correct_answer" != "c" && 
+	if [[ "$correct_answer" != "a" || "$correct_answer" != "b" || "$correct_answer" != "c" ||
 		"$correct_answer" != "d" ]]; then
 		echo "Invalid input, please enter 'a', 'b', 'c', 'd' only"
 		continue
@@ -417,7 +417,7 @@ Command() {
 
 	# - ask user if they wanna add another question
 	read -p "Add another" user_response
-	if [ "$user_response" != 'y' && $user_response != 'Y' ]; then
+	if [ "$user_response" != 'y' || $user_response != 'Y' ]; then
 		break
 	fi
   done
@@ -445,7 +445,7 @@ Command() {
 
       # - Ask user if they wanna add another question
       read -p "Add Another Question (y/n): " user_response
-      if [ "$user_response" != "y" && "$user_response" != "Y" ]; then
+      if [ "$user_response" != "y" || "$user_response" != "Y" ]; then
 	      break
       fi
 done
@@ -496,7 +496,7 @@ delete_true_false_question() {
    
   # - Ask the user if they want to delete another question
      read -p "Do you want to delete another question? (y/n): " user_response
-     if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
+     if [[ "$user_response" != "y" || "$user_response" != "Y" ]]; then
 	     echo "Returning to the Menu"
 	     break
      fi 
@@ -546,7 +546,7 @@ delete_MQ_questions() {
 
   # - Ask the user if they want to delete another question
   read -p "Do you want to deleter another question? (y/n) " user_response
-  if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
+  if [[ "$user_response" != "y" || "$user_response" != "Y" ]]; then
 	  echo "Returning to the menu"
 	  break
   fi 
