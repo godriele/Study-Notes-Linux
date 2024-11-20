@@ -41,12 +41,23 @@ else
 	echo "Multiple Choice txt file already created"
 fi
 
+
+# Create the Enter Command txt file
+
+if [ ! -f "Commands.txt" ]; then
+	touch Commands.txt
+	echo "Created the Commands.txt file"
+else
+	echo "Commands.txt file already exist"
+fi
+
 # ---------------------------------------------------------------------------------------
 # Step 2: Initialize Variables
  
   score=0
   true_false_file="True_False_questions.txt"
   multiple_choice_file="Multiple_Choice_questions.txt"
+  enter_command_file="Commands.txt"
 
 
 # --------------------------------------------------------------------------------------
@@ -58,6 +69,7 @@ load_questions() {
    # I plan on loading the questions from the txt file into these array 
    true_false_questions=()
    multiple_choice_questions=()
+   commands_questions=()
    
 
    # --------------------  True/False  ----------------------------------
@@ -78,6 +90,15 @@ load_questions() {
    done < "$multiple_choice_file"
 
    # basically reading the txt file and outputting it in the array 
+   
+   # -------------------- Commands Questions -----------------------------
+   # New Addition:
+   # Loading command questions in the commands_questions array
+   
+   while IFS= read -r line; do
+	   commands_quesitons+=("$line")
+   done < "$enter_command_file"
+
 }
 
 # ---------------------------------------------------------------------------------------
@@ -107,7 +128,6 @@ True_False() {
   	# ------------------------------------------------------------------------
   	# - Validate the user's input
   	# - Normalise input to uppercase
-  	# - Validate
   	while true; do
 	  	read -p "Your answer: " user_answer
 		user_answer=$(echo "$user_answer" | tr '[:upper:]' '[:lower:]') # convert to lowercase
@@ -160,7 +180,7 @@ True_False() {
   
 Multiple_Choice() {
   Multiple_Choice_Quiz() {
-     #Check if ther anre any MCQ questions loaded
+     #Check if there are any MCQ questions loaded
 	if [ ${#multiple_choice_question[@]} -eq 0} ]; then
 		echo "There are no multiple choice questions, Add soome"
 		return 1
@@ -237,7 +257,11 @@ Multiple_Choice() {
 }
 
 # ---------------------------------------------------------------------------------------
-# Step 6: Add Questions
+#  Step 6: Enter the Command Questions
+#
+#
+# ---------------------------------------------------------------------------------------
+# Step 7: Add Questions
 #
 	# --------------- Adding T/F questions -------------------------
  # Todo:
@@ -259,7 +283,7 @@ Multiple_Choice() {
 
 
 # ---------------------------------------------------------------------------------------
-# Step 7: Delete Question
+# Step 8: Delete Question
 #      #------------------- T/F Questions ------------------------------------
   # Todo:
   # - check if file is not empty
@@ -283,7 +307,7 @@ Multiple_Choice() {
 
 
 # ---------------------------------------------------------------------------------------
-# Step 8 : View all qeustions
+# Step 9 : View all qeustions
 #
 #      #------------------ View T/F Questions ---------------------------
   # Todo:
