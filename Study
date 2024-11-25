@@ -378,24 +378,33 @@ Command() {
 		return 1
 	fi 
 
- 	# - Ask user for the options
-	echo "Enter the 4 options for the MCQ: "
-	read -p "Enter Option a: " option_a
-	read -p "Enter Option b: " option_b
-	read -p "Enter Option c: " option_c
-	read -p "Enter Option d: " option_d
+	while true; do 
+ 		# - Ask user for the options
+		echo "Enter the 4 options for the MCQ: "
+		read -p "Enter Option a: " option_a
+		read -p "Enter Option b: " option_b
+		read -p "Enter Option c: " option_c
+		read -p "Enter Option d: " option_d
 
-	if [ -z "$option_a" ] || [ -z "$option_b" ] || [ -z "$option_c" ] || [ -z "$option_d" ]; then
-		echo "Options cannot be empty"
-		continue
-	fi
+		if [ -z "$option_a" ] || [ -z "$option_b" ] || [ -z "$option_c" ] || [ -z "$option_d" ]; then
+			echo "Options cannot be empty"
+			continue
+		fi
+
+		if [[ "$option_a" == "$option_b" || "$option_a" == "$option_c" || "$option_a" == "$option_d" ||
+               	  "$option_b" == "$option_c" || "$option_b" == "$option_d" || "$option_c" == "$option_d" ]]; then
+            		echo "Duplicate options detected! Please ensure all options are unique."
+         	else
+            		break
+         	fi
+ 	done	
 
  	# - Ask for the correct asnwer (a, b, c, d)
 	read -p "Enter the correct answer (a/b/c/d): " correct_answer
-	correct_answer=$( echo "$correct_answer" | tr '[:lower:]' '[:upper:]')
+	correct_answer=$(echo "$correct_answer" | tr '[:lower:]' '[:upper:]')
 
  	# - Validate the correct answer input (a,b,c,d,)
-	if [[ "$correct_answer" != "A" || "$correct_answer" != "B" || "$correct_answer" != "C" ||
+	if [[ "$correct_answer" != "A" && "$correct_answer" != "B" && "$correct_answer" != "C" &&
 		"$correct_answer" != "D" ]]; then
 		echo "Invalid input, please enter 'a', 'b', 'c', 'd' only"
 		continue
@@ -403,12 +412,13 @@ Command() {
 
  	# - Save the questiion and option to the multiple choice file
  	#  - echo "$question | $option1 | $option2 | $option3 | $option4\
-	echo "$question | Choices: a) $option_a b) $option_b c) $option_c d) $option_d" >> "$multiple_choice_file"
+	echo "$question | Choices: a) $option_a b) $option_b c) $option_c d) $option_d | Correct: $correct_answer" >> "$multiple_choice_file"
 	echo "Multiple Choice questions Added!"
 
 	# - ask user if they wanna add another question
-	read -p "Add another" user_response
-	if [ "$user_response" != 'y' || $user_response != 'Y' ]; then
+	read -p "Add another questions? (y/n): " user_response
+	user_response=$(echo "$user_response" | tr '[:upper:]' '[:lower:]')
+	if [[ "$user_response" != 'y' ]]; then
 		break
 	fi
   done
