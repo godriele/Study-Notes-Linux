@@ -429,24 +429,25 @@ Command() {
    while true; do
  #  - Ask the user to enter description of the command
  	read -p "Enter the description of the command: " question
-	if [ -z $question ]; then
+	if [ -z "$question" ]; then
 		echo "Question cannot be empty"
-		return 1
+		continue
 	fi
  #  - Ask the user to enter the correct command associated with the description
  	read -p "Enter the command associated with the description: " correct_command
  #  - Validate the input to ensure it is not empty or invalid
  	if [ -z "$correct_command" ]; then
-		echo " Command cannot be empty"
-		return 1
+		echo "Command cannot be empty"
+		continue
 	fi 
  #  - append the description and the command tot he command quesitons file in the format
-       echo "$question" | "$correct_command" >> "$enter_command_file"
+       echo "$question | $correct_command" >> "$enter_command_file"
        echo "Question Added!"
 
-i      # - Ask user if they wanna add another question
+      # - Ask user if they wanna add another question
       read -p "Add Another Question (y/n): " user_response
-      if [ "$user_response" != "y" || "$user_response" != "Y" ]; then
+      user_response=$(echo "$user_response" | tr '[:upper:]' '[:lower:]')
+      if [ "$user_response" != "y" ]; then
 	      break
       fi
 done
