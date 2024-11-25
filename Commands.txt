@@ -1,7 +1,4 @@
-Commands.txt
-Multiple_Choice_questions.txt
-README.md
-Study
-True_False_Questions.txt
 List files | ls
 deleter directory | rmdir
+create a file | touch
+make directory | mkdir
