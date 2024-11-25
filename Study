@@ -28,17 +28,11 @@
 # Create the True/False txt file
 if [ ! -f "True_False_questions.txt" ]; then
 	touch True_False_Questions.txt
-	echo "Created the True/False txt File"
-else
-	echo "True/False txt file already created"
 fi
 
 # Create the Multiple Choice txt File
 if [ ! -f "Multiple_Choice_questions.txt" ]; then
 	touch Multiple_Choice_questions.txt
-	echo "Created the Multiple Choice txt File"
-else
-	echo "Multiple Choice txt file already created"
 fi
 
 
@@ -46,9 +40,6 @@ fi
 
 if [ ! -f "Commands.txt" ]; then
 	touch Commands.txt
-	echo "Created the Commands.txt file"
-else
-	echo "Commands.txt file already exist"
 fi
 
 # ---------------------------------------------------------------------------------------
@@ -75,7 +66,7 @@ load_questions() {
 
    # --------------------  True/False  ----------------------------------
 
-   # Load True or False questions from the file
+# Load True or False questions from the file
    while IFS= read -r line; do
 	   # read the first line and let line hold onto it
 	   # += adds it to the array 
@@ -347,7 +338,7 @@ Command() {
 
  	if [ -z "$question" ]; then
 	 	echo "Question cannot be empty"
-	 	return 1
+	 	continue
  	fi
 
  	# - Ask User if answer is True / False
@@ -357,20 +348,20 @@ Command() {
  	# - Normalize input to uppercase
  
  	answer=$(echo "$answer" | tr '[:lower:]' '[:upper:]')
-	
-	if [[ "$answer" != "t" || "$answer" != "f" ]]; then 
+
+	if [[ "$answer" != "T" && "$answer" != "F" ]]; then 
 		echo "Invalid input, only 't' for True or 'f' for false"
 		continue
 	fi 
 
  	# - append the question and answer into the True/False question file
-	echo "$question | $answer" >> "$true_false_question"
+	echo "$question | $answer" >> "$true_false_file"
 	echo "Question Added"
 
 	# - ask user if they want to add another question
 	read -p "Add another question (y/n): " user_response
 	
-	if [[ "$user_response" != "y" || "$user_response" != "Y" ]]; then
+	if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
 		break
 	fi
  done
@@ -380,7 +371,7 @@ Command() {
  Add_MQ_Questions() {
    while true; do
  	# - Ask user to enter the question
-	read -p "Enter the Multiple Choice question" question 
+	read -p "Enter the Multiple Choice question: " question 
 
 	if [ -z $question ]; then
 		echo "Question cannot be empty"
@@ -388,11 +379,11 @@ Command() {
 	fi 
 
  	# - Ask user for the options
-	echo "Enter the 4 options for the MCQ"
-	read -p "Enter Option a" option_a
-	read -p "Enter Option b" option_b
-	read -p "Enter Option c" option_c
-	read -p "Enter Option d" option_d
+	echo "Enter the 4 options for the MCQ: "
+	read -p "Enter Option a: " option_a
+	read -p "Enter Option b: " option_b
+	read -p "Enter Option c: " option_c
+	read -p "Enter Option d: " option_d
 
 	if [ -z "$option_a" ] || [ -z "$option_b" ] || [ -z "$option_c" ] || [ -z "$option_d" ]; then
 		echo "Options cannot be empty"
@@ -401,11 +392,11 @@ Command() {
 
  	# - Ask for the correct asnwer (a, b, c, d)
 	read -p "Enter the correct answer (a/b/c/d): " correct_answer
-	correct_answer=$( echo "$correct_answer" | tr '[:upper:]' '[:lower:]')
+	correct_answer=$( echo "$correct_answer" | tr '[:lower:]' '[:upper:]')
 
  	# - Validate the correct answer input (a,b,c,d,)
-	if [[ "$correct_answer" != "a" || "$correct_answer" != "b" || "$correct_answer" != "c" ||
-		"$correct_answer" != "d" ]]; then
+	if [[ "$correct_answer" != "A" || "$correct_answer" != "B" || "$correct_answer" != "C" ||
+		"$correct_answer" != "D" ]]; then
 		echo "Invalid input, please enter 'a', 'b', 'c', 'd' only"
 		continue
 	fi 
@@ -413,7 +404,7 @@ Command() {
  	# - Save the questiion and option to the multiple choice file
  	#  - echo "$question | $option1 | $option2 | $option3 | $option4\
 	echo "$question | Choices: a) $option_a b) $option_b c) $option_c d) $option_d" >> "$multiple_choice_file"
-	echo "Multiple Choice questions Added"
+	echo "Multiple Choice questions Added!"
 
 	# - ask user if they wanna add another question
 	read -p "Add another" user_response
@@ -427,13 +418,13 @@ Command() {
  Add_Command() {
    while true; do
  #  - Ask the user to enter description of the command
- 	read -p "Enter the description of the command" question
+ 	read -p "Enter the description of the command: " question
 	if [ -z $question ]; then
 		echo "Question cannot be empty"
 		return 1
 	fi
  #  - Ask the user to enter the correct command associated with the description
- 	read -p "Enter the command associated with the description" correct_command
+ 	read -p "Enter the command associated with the description: " correct_command
  #  - Validate the input to ensure it is not empty or invalid
  	if [ -z "$correct_command" ]; then
 		echo " Command cannot be empty"
@@ -443,7 +434,7 @@ Command() {
        echo "$question" | "$correct_command" >> "$enter_command_file"
        echo "Question Added!"
 
-      # - Ask user if they wanna add another question
+i      # - Ask user if they wanna add another question
       read -p "Add Another Question (y/n): " user_response
       if [ "$user_response" != "y" || "$user_response" != "Y" ]; then
 	      break
@@ -716,7 +707,7 @@ main_menu() {
 			Command_Questions
 			;;
 		4)
-			view_true_false_qeustions
+			view_true_false_questions
 			;;
 		5)
 			view_multiple_choice_question
