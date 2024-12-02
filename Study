@@ -469,8 +469,8 @@ delete_true_false_question() {
      echo "True/False Questions: "
      echo "------------------------------"
   #    - $((i+1)) ${tru_false_question[$i]}
-     for i in "${!true_false_question[@]}"; do
-	     echo "$((i + 1)). ${true_false_questions[$1]}"
+     for i in "${!true_false_questions[@]}"; do
+	echo "$((i + 1)). ${true_false_questions[$i]}"
      done
 
   # - Ask user the number of the question they want to delte
@@ -489,8 +489,8 @@ delete_true_false_question() {
 
   # - remove the question from the array
      index=$((choice -1 ))
-     echo  "Deleting: ${true_false_question[$index]}"
-     unset true_false_question[$index]
+     echo  "Deleting: ${true_false_questions[$index]}"
+     unset true_false_questions[$index]
 
   # - rewrite the True/False question to the file without the deleted question
      echo "${true_false_questions[@]}" > "$true_false_file"
