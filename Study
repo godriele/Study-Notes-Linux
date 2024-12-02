@@ -464,6 +464,8 @@ delete_true_false_question() {
 	  return 
   fi 
 
+  mapfile -t true_false_questions < "$true_false_file"
+
   while true; do
   # - show the quesion in a list formaat
      echo "True/False Questions: "
@@ -492,8 +494,10 @@ delete_true_false_question() {
      echo  "Deleting: ${true_false_questions[$index]}"
      unset true_false_questions[$index]
 
+     true_false_questions=("${true_false_questions[@]}")
+
   # - rewrite the True/False question to the file without the deleted question
-     echo "${true_false_questions[@]}" > "$true_false_file"
+     echo "%s\n" "${true_false_questions[@]}" > "$true_false_file"
      echo "Question deleted successfully!"
    
   # - Ask the user if they want to delete another question
@@ -503,6 +507,7 @@ delete_true_false_question() {
 	     break
      fi 
  done
+
 }
 #      #------------------- MCQ Questions ------------------------------------
   # Todo:
