@@ -497,7 +497,7 @@ delete_true_false_question() {
      true_false_questions=("${true_false_questions[@]}")
 
   # - rewrite the True/False question to the file without the deleted question
-     echo "%s\n" "${true_false_questions[@]}" > "$true_false_file"
+     echo "${true_false_questions[@]}" > "$true_false_file"
      echo "Question deleted successfully!"
    
   # - Ask the user if they want to delete another question
@@ -518,14 +518,16 @@ delete_MQ_questions() {
 	  return
   fi 
   
+  mapfile -t multiple_choice_questions < "$multiple_choice_file"
+
   while true; do 
   # - show the questions in a list format
       echo "Multiple Choice Questions:"
       echo "------------------------------"
       for i in "${!multiple_choice_questions[@]}"; do
-	      questions="${multiple_choice_questions[$1]}"
-	      question_text="${question%|Choice:*}" # Take only the question text
-	      echo "$((i + 1)). $question_text"
+	      questions="${multiple_choice_questions[$i]}"
+	      question_text="${questions%%| Choice:*}" # Take only the question text
+	      echo "$((i + 1)). ${question_text}"
       done
 
   # - ask the user the number of the question they want to delete
@@ -547,8 +549,10 @@ delete_MQ_questions() {
   echo "Deleting: ${multiple_choice_questions[$index]}"
   unset multiple_choice_questions[$index]
 
-  # - rewrite the True/False question to the file without the deleted question
-  printf "%s\n" "${multiple_choice_questions[@]}" > "$mutliple_choice_file"
+  multiple_choice_questions=("${multiple_choice_questions[@]}")
+
+  # - rewrite the mcq question to the file without the deleted question
+  printf "${multiple_choice_questions[@]}" > "$multiple_choice_file"
   echo "Question deleted sucessfully!"
 
   # - Ask the user if they want to delete another question
