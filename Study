@@ -88,7 +88,7 @@ load_questions() {
    # Loading command questions in the commands_questions array
    
    while IFS= read -r line; do
-	   commands_quesitons+=("$line")
+	   commands_questions+=("$line")
    done < "$enter_command_file"
 
 }
@@ -578,8 +578,8 @@ delete_command_question() {
    	echo "Command Questions:" 
 	echo "--------------------------"
 	for i in "${!commands_questions[@]}"; do
-		questions="${!commands_questions[$i]}"
-		command_description="${questions%|Command:*}" # Get the description only
+		questions="${commands_questions[$i]}"
+		command_description="${questions%%|Command:*}" # Get the description only
 		echo "$((i + 1)). $command_description"
 	done
   # 
@@ -602,18 +602,22 @@ delete_command_question() {
   # - Remove the question from the array
   index=$((choice - 1))
   echo  "Deleting: ${commands_questions[$index]}"
+  
   unset commands_questions[$index]
 
   # - Rewrite the command question the the file, excluding the deleted question
+  commands_questions={"${commands_questions[@]}"}
   printf "%s\n" "${commands_questions[@]}" > "$enter_command_file"
   echo "Questions deleted successfully!"
   # - Confirm to the user that the question was susccessfully deleted
   
   # - Ask user if they want to delete another question
-  read -p "Do you want to deleter another question? (y/n)" user_response
-  if [[ "$user_response" != "y" ]]; then
+  read -p "Do you want to deleter another question? (y/n: )" user_response
+  if [[ "$user_response" != "y" && "$user_response" != "Y" ]]; then
+	  echo "Returning Home"
 	  break
   fi 
+
  done
 }
   
