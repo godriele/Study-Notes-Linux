@@ -1,7 +1,0 @@
-test1 | Choices: a) 1 b) 2 c) 3 d) 4 | Correct: C
-test2 | Choices: a) 1 b) 2 c) 3 d) 4 | Correct: A
-test4 | Choices: a) 1 b) 2 c) 3 d) 4 | Correct: A
-hello | Choices: a) 1 b) 4 c) 5 d) 5 | Correct: D
-hi | Choices: a) a b) s c) d d) v | Correct: D
-123 | Choices: a) 1 b) 2 c) 3 d) 4 | Correct: A
-wbdah | Choices: a) a b) s c) d d) f | Correct: A
